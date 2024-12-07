@@ -4,10 +4,10 @@
 public class MyString {
     public static void main(String args[]) {
         String hello = "hello";
-        System.out.println(countChar(hello, 'h'));
-        System.out.println(countChar(hello, 'l'));
-        System.out.println(countChar(hello, 'z'));
-        System.out.println(spacedString(hello));
+        //System.out.println(countChar(hello, 'h'));
+        //System.out.println(countChar(hello, 'l'));
+        //System.out.println(countChar(hello, 'z'));
+        System.out.println(subsetOf("train", "aretiin"));
         //// Put your other tests here.
     }
 
@@ -20,8 +20,12 @@ public class MyString {
      * @return the number of times c appears in str
      */
     public static int countChar(String str, char ch) {
-        //// Replace the following statement with your code
-        return 0;
+        if (str.isEmpty()) {return 0;}
+        int count = 0;
+		for (int i = 0; i < str.length(); i++) {
+		    if (str.charAt(i) == ch) {count++;}
+		}
+        return count;
     }
 
     /** Returns true if str1 is a subset string str2, false otherwise
@@ -30,14 +34,19 @@ public class MyString {
      *  subsetOf("spa","space") returns true
      *  subsetOf("pass","space") returns false
      *  subsetOf("c","space") returns true
-     *
+     *  
      * @param str1 - a string
      * @param str2 - a string
      * @return true is str1 is a subset of str2, false otherwise
      */
     public static boolean subsetOf(String str1, String str2) {
-         //// Replace the following statement with your code
-        return false;
+        if (str1.isEmpty()) {return true;}
+        if (str2.isEmpty()) {return false;}
+        int count = 0;
+		for (int i = 0; i < str1.length(); i++) {
+            if (countChar(str1, str1.charAt(i)) <= countChar(str2, str1.charAt(i))) {count++;}
+		}
+        return count == str1.length();
     }
 
     /** Returns a string which is the same as the given string, with a space
@@ -49,8 +58,10 @@ public class MyString {
      * @return a string consisting of the characters of str, separated by spaces.
      */
     public static String spacedString(String str) {
-        //// Replace the following statement with your code
-        return null;
+        if (str.isEmpty()) {return "";}
+        String newStr = "";
+		for (int i = 0; i < str.length()-1; i++) {newStr += str.charAt(i)+" ";}
+        return newStr+str.charAt(str.length()-1);
     }
   
     /**
@@ -64,22 +75,30 @@ public class MyString {
      * @return a randomly generated string, consisting of 'n' lowercase letters
      */
     public static String randomStringOfLetters(int n) {
-        //// Replace the following statement with your code
-        return null;
+        if (n <= 0) {return "";}
+        String randStr = "";
+        for (int i = 0; i < n; i++) {randStr += (char)((int)(Math.random()*26)+97);}
+        return randStr;
     }
 
     /**
      * Returns a string consisting of the string str1, minus all the characters in the
      * string str2. Assumes (without checking) that str2 is a subset of str1.
-     * Example: remove("meet","committee") returns "comit" 
+     * Example: remove("committee","meet") returns "comit" 
      * 
      * @param str1 - a string
      * @param str2 - a string
      * @return a string consisting of str1 minus all the characters of str2
      */
     public static String remove(String str1, String str2) {
-       //// Replace the following statement with your code
-        return null;
+        if (str1.isEmpty()) {return "";}
+        if (str2.isEmpty()) {return str1;}
+        String newStr = "";
+		for (int i = 0; i < str1.length(); i++) {
+            if (countChar(str2, str1.charAt(i)) == 0) {newStr += str1.charAt(i);}
+            else {str2 = str2.replaceFirst(Character.toString(str1.charAt(i)), "");}
+        } 
+        return newStr;
     }
 
     /**
@@ -91,6 +110,8 @@ public class MyString {
      * @return a string consisting of str with ch inserted somewhere
      */
     public static String insertRandomly(char ch, String str) {
+        if (ch == 0) {return str;}
+        if (str.isEmpty()) {return Character.toString(ch);}
          // Generate a random index between 0 and str.length()
          int randomIndex = (int) (Math.random() * (str.length() + 1));
          // Insert the character at the random index
